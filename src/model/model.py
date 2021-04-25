@@ -1,6 +1,6 @@
 from src.model.utils import *
 from src.view.view import *
-from src.model.shortestPath import ShortestPath
+from src.model.ShortestRoute import ShortestRoute
 from src.model.GraphGenerator import GraphGenerator
 
 
@@ -9,7 +9,7 @@ class Model:
         self.mapbox_api_key = None
         self.shortest_path_algorithm = None
         self.graph = None
-        self.shortestPathObject = None
+        self.shortestRouteObject = None
         self.observer = None
         self.algorithm = None
 
@@ -31,13 +31,15 @@ class Model:
     def set_shortest_path_algorithm(self, algorithm):
         self.shortest_path_algorithm = algorithm
 
-    def set_shortest_path_object(self, coord_end, x, elevation_flag):
+    def set_shortest_path_object(self, coord_end):
         self.graph = GraphGenerator().generate_elevation_graph(coord_end)
-        self.shortestPathObject = ShortestPath(self.graph, x=x, elevation_mode=elevation_flag)
+        self.shortestRouteObject = ShortestRoute(self.graph)
 
-    def generate_paths(self, origin, destination, x, elevation_flag):
-        self.set_shortest_path_object(destination, x, elevation_flag)
-        shortest_path, elev_path = self.shortestPathObject.get_shortest_path(origin, destination, x,
-                                                                             elevation_mode=elevation_flag)
-        self.observer.update_notifier(shortest_path, elev_path, get_address_from_coordinates(origin),
+    def generate_paths(self, origin, destination, x, strategy):
+        
+        self.set_shortest_path_object(destination)
+
+        shortest_route = self.shortestRouteObject.get_shortest_route(origin, destination)
+        
+        self.observer.update_notifier(shortest_route, shortest_route, get_address_from_coordinates(origin),
                                       get_address_from_coordinates(destination))
