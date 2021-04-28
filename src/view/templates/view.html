@@ -1,0 +1,392 @@
+<!-- templates/presentation.html -->
+<html>
+    <head>
+        <meta charset='utf-8' />
+        <title></title>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css' rel='stylesheet' />
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.simpleWeather/3.1.0/jquery.simpleWeather.min.js'></script>
+        <link rel= "stylesheet" type= "text/css" href= "css/button.css">
+        <link rel= "stylesheet" type= "text/css" href= "css/text_core.css">
+        <link rel="stylesheet" type= "text/css" href= "css/nav.css">
+        <link rel="stylesheet" type= "text/css" href= "css/generic_button.css">
+        <link rel="stylesheet" type= "text/css" href= "css/text_related.css">
+        <link rel="stylesheet" type= "text/css" href= "css/calculate_button.css">
+        <link rel="stylesheet" type= "text/css" href= "css/functionality_button.css">
+        <link rel="stylesheet" type= "text/css" href= "css/logo.css">
+        <style>
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <body>
+        <div id="wrapper">
+            <div id="map"></div>
+        </div>
+
+
+        <div class="sidenav">
+            <img src="{{ url_for('static', filename='elena_logo.png') }}" alt="EleNa" class = "logo" />
+            <br>
+            <button id="map_or_address" class="map_or_address-button">Select Map</button>
+
+        </div>
+
+        <div class="sidenav0">
+            <label for="start_address" class="start_add">&nbsp; Start Address &nbsp;&nbsp;</label>
+            <input type="text" id="text_start_address" name="start_address" placeholder="eg. UMass, Amherst, Massachusetts, USA" style="width: 300px; height: 30px; position: fixed; left: 17px; top:120; padding: 1px; border: none;">
+            <label for="end_address" class="end_add">&nbsp; End Address &nbsp;&nbsp;</label>
+            <input type="text" id="text_end_address" name="start_address" placeholder="eg. UMass, Amherst, Massachusetts, USA" style="width: 300px; height: 30px; position: fixed; left: 17px; top:190; padding: 1px; border: none;">
+            <label for="threshold" class="thres">Elevation max path limit (x%) &nbsp;&nbsp;</label>
+            <input type="number" id="x" min="0" name="threshold" value=0 style="width: 115px; height: 30px; position: fixed; left: 150px; top:255; padding: 1px; text-align: center; border: none;">
+            <input type="radio" name="skill1" class="check" style="position: fixed; top:300px; left: 20px; padding: 1px" value="minimize" checked>
+            <label for="skill1" style="position: fixed; top:300px; left: 40px; padding: 1px"> Minimize Elevation </label>
+            <input type="radio" name="skill2" style="position: fixed; top:320px; left: 20px; padding: 1px" class="check" value="maximize">
+            <label for="skill2" style="position: fixed; top:320px; left: 40px; padding: 1px"> Maximize Elevation </label>
+            <button id="reset" class="reset-button">Reset</button>
+            <button id="calc_route" class="calculate-button" disabled>Calculate</button>
+        </div>
+
+        <div class="sidenav2">
+            <label style="position: fixed; top: 9px; left: 660px; padding: 1px; color: yellowgreen">Elena:</label>
+            <hr style="position: fixed; top: 23px; left: 645px; width: 600px; border-bottom: 1px solid #8A8888;">
+            <label style="position: fixed; top: 37px; left: 650px; padding: 1px; color: yellow">Shortest:</label>
+            <!-- <div style="border-right: 1px solid #8A8888; height: 54px; position: absolute; left: 720px"></div> -->
+
+            <label style="position: fixed; top: 9px; left: 730px; padding: 1px; color:yellowgreen">Gain: </label>
+            <div id="gain_1" style="position: fixed; top: 9px; left: 775px; padding: 1px; color: yellowgreen"></div>
+
+            <label style="position: fixed; top: 37px; left: 730px; padding: 1px; color: yellow">Gain: </label>
+            <div id="gain_2" style="position: fixed; top: 37px; left: 775px; padding: 1px; color: yellow"></div>
+
+            <label style="position: fixed; top: 9px; left: 850px; padding: 1px; color: yellowgreen">Drop: </label>
+            <div id="drop_1" style="position: fixed; top: 9px; left: 895px; padding: 1px; color: yellowgreen"></div>
+
+            <label style="position: fixed; top: 37px; left: 850px; padding: 1px; color: yellow">Drop: </label>
+            <div id="drop_2" style="position: fixed; top: 37px; left: 895px; padding: 1px; color: yellow"></div>
+
+            <label style="position: fixed; top: 9px; left: 980px; padding: 1px; color: yellowgreen">Distance: </label>
+            <div id="dist_1" style="position: fixed; top: 9px; left: 1055px; padding: 1px; color: yellowgreen"></div>
+
+            <label style="position: fixed; top: 37px; left: 980px; padding: 1px; color: yellow">Distance: </label>
+            <div id="dist_2" style="position: fixed; top: 37px; left: 1055px; padding: 1px; color: yellow"></div>
+
+        </div>
+        <div id="info" class="infonav">
+            <div id='lat' style="position: relative; top:5%; left: 20px; padding: 1px">Latitutde: </div>
+            <div id='long' style="position: relative; top:10%; left: 20px; padding: 1px">Longitude: </div>
+            <div id="start" style="position: relative; top:15%; left: 20px; max-width: 250px; padding: 1px"> Start Location: </div>
+            <div id="end" style="position: relative; top: 20%; left: 20px; max-width: 250px; padding: 1px"> End Location: </div>
+        </div>
+
+        <div id="loading">
+            <img src="{{ url_for('static', filename='processing.gif') }}" alt="Loading...." class = "logo" style="top: 300; left: 800; height: 400; width: 800" />
+        </div>
+
+        <!-- <script type="text/javascript" {{ url_for('static', filename='client_script.js')}}></script> -->
+        <script type="text/javascript" {{ url_for('static', filename='client_script.js')}}>
+        var address_text = false;
+        var start_flag=false;
+        var end_flag=false;
+        var start_loc="";
+        var end_loc="";
+        var start_address = "";
+        var end_address = "";
+        var minimize_elevation=true;
+        $(document).ready(function(){
+            $('.check').click(function() {
+                $('.check').not(this).prop('checked', false);
+            });
+        });
+
+        document.getElementById('map_or_address').onclick=function(){
+            var x = document.getElementById("map_or_address");
+                if (x.innerHTML === "Select Map") {
+                    x.innerHTML = "Type Address";
+                    setVisibilityOfAddressTexts(true);
+                } else {
+                    x.innerHTML = "Select Map";
+                    setVisibilityOfAddressTexts(false);
+                }
+        }
+        function setVisibilityOfAddressTexts(disabled){
+          document.getElementById("text_start_address").disabled = disabled;
+          document.getElementById("text_end_address").disabled = disabled;
+        };
+
+
+        mapboxgl.accessToken = '{{ ACCESS_KEY }}';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/dark-v10',
+            center: [-72.529262, 42.384803],
+            zoom: 13,
+        });
+
+        var m1, m2;
+        points = turf.featureCollection([]);
+
+        map.on("load" , function(){
+            $('#loading').hide();
+
+            map.addSource('circleData', {
+                type: 'geojson',
+                data: {
+                type: 'FeatureCollection',
+                features: [],
+                },
+            });
+            map.addLayer({
+                id: 'data',
+                type: 'circle',
+                source: 'circleData',
+                paint: {
+                'circle-opacity' : 0.1,
+                'circle-radius': 300,
+                'circle-stroke-width': 2,
+                'circle-stroke-color': '#333',
+                },
+            });
+        }
+        );
+        map.on('mousemove', function (e) {
+
+            document.getElementById('lat').innerHTML = "Latitude: "+e.lngLat["lat"].toFixed(4);
+            document.getElementById('long').innerHTML = "Longitude: "+e.lngLat["lng"].toFixed(4);
+        });
+
+        map.on('click', function(e) {
+            var x = document.getElementById("map_or_address");
+                if (x.innerHTML !== "Select Map") {
+
+                  lngLat = new Array(e.lngLat.lng, e.lngLat.lat);
+
+                  console.log("Map position: " + JSON.stringify(e.lngLat))
+
+                  if (!start_flag)
+                  {
+                      m1 = updateEndPointLocations('start', e);
+                      start_loc=JSON.stringify(e.lngLat);
+                      start_flag=true;
+                      map.flyTo({center: lngLat});
+                  }
+                  else if(!end_flag )
+                  {
+                      m2 = updateEndPointLocations('end', e);
+                      end_loc=JSON.stringify(e.lngLat);
+                      end_flag=true;
+                      document.getElementById("calc_route").disabled = false;
+                  }
+            }
+        });
+
+        function roundOff(N){
+          return Math.round(N*10000)/10000;
+        }
+
+        function updateEndPointLocations(position, e){
+          var color = '';
+          if(position === 'start') color = 'red';
+          else color = 'blue';
+
+          document.getElementById(position).innerHTML ="Start Location:("+roundOff(e.lngLat["lat"])+","+roundOff(e.lngLat["lng"])+")";
+
+          var m = new mapboxgl.Marker({color:color}).setLngLat(e.lngLat).addTo(map);
+
+          return m;
+        }
+
+
+
+        document.getElementById("text_start_address").addEventListener('input',setCalculateVisibilityOnAddresses);
+        document.getElementById("text_end_address").addEventListener('input',setCalculateVisibilityOnAddresses);
+
+        function setCalculateVisibilityOnAddresses(e){
+          // console.log("Invoking this function on input event");
+          var start_address = document.getElementById("text_start_address").value.toString();
+          var end_address = document.getElementById("text_end_address").value.toString();
+
+          if(start_address && end_address){
+            document.getElementById("calc_route").disabled = false;
+          }
+          else{
+            document.getElementById("calc_route").disabled = true;
+          }
+        }
+
+        function erase()
+        {
+            document.getElementById('start').innerHTML ="Start Location: ";
+            document.getElementById('end').innerHTML ="End Location: ";
+            document.getElementById('calc_route').innerHTML ="Calculate"
+            document.getElementById("calc_route").disabled = true;
+            document.getElementById('x').value = 0;
+            document.getElementById('info').style.height = "135px";
+            document.getElementById('end').style.top = "185px";
+            document.getElementById('start').style.top = "155px";
+            document.getElementById("text_start_address").value = "";
+            document.getElementById("text_end_address").value = "";
+            start_loc="";
+            start_flag=false;
+            end_loc="";
+            end_flag=false;
+            points = turf.featureCollection([]);
+            map.getSource('circleData').setData(points);
+
+            if(m1) m1.remove();
+            if(m2) m2.remove();
+
+            calc_route_reset();
+
+        }
+        function calc_route_reset()
+        {
+          if(map.getLayer("shortest_route")) map.removeLayer("shortest_route");
+          if(map.getSource("shortest_route")) map.removeSource("shortest_route");
+          if(map.getLayer("ele_route")) map.removeLayer("ele_route");
+          if(map.getSource("ele_route")) map.removeSource("ele_route");
+
+          document.getElementById('gain_1').innerHTML="";
+          document.getElementById('gain_2').innerHTML="";
+          document.getElementById('drop_1').innerHTML="";
+          document.getElementById('drop_2').innerHTML="";
+          document.getElementById('dist_1').innerHTML="";
+          document.getElementById('dist_2').innerHTML="";
+        }
+
+        document.getElementById('reset').onclick=erase;
+        function handleData(data, request_endpoint)
+        {
+            console.log("Data: " + JSON.stringify(data));
+            if(data["bool_pop"] === -1){
+              if(m1) m1.remove();
+              if(m2) m2.remove();
+              calc_route_reset();
+              return;
+            }
+
+            if (data["bool_pop"]==0 || data["bool_pop"]==1)
+            {
+                return;
+            }
+
+            if(request_endpoint === "route_address"){
+              var start_coordinates = data["start_coordinates"];
+              m1 = new mapboxgl.Marker({color:'red'}).setLngLat(start_coordinates).addTo(map);
+
+              var end_coordinates = data["end_coordinates"];
+              m2 = new mapboxgl.Marker({color:'blue'}).setLngLat(end_coordinates).addTo(map);
+            }
+
+            map.addSource("ele_route", {
+                "type": "geojson",
+                "data": data["elev_path_route"]
+            });
+
+            map.addLayer({
+                "id": "ele_route",
+                "type": "line",
+                "source": "ele_route",
+                "layout": {
+                    "line-join": "round",
+                    "line-cap": "round"
+                },
+                "paint": {
+                    "line-color": "Green",
+                    "line-width": 2
+                }
+            });
+
+            map.addSource("shortest_route", {
+                "type": "geojson",
+                "data": data["shortest_route"]
+            });
+
+            map.addLayer({
+                "id": "shortest_route",
+                "type": "line",
+                "source": "shortest_route",
+                "layout": {
+                    "line-join": "round",
+                    "line-cap": "round"
+                },
+                "paint": {
+                    "line-color": "Yellow",
+                    "line-width": 2
+                }
+            });
+            console.log("Routes now visible");
+            updateRouteStatistics(data);
+        }
+        function updateRouteStatistics(data){
+          document.getElementById('info').style.height = "300px";
+          document.getElementById('start').innerHTML = "Start Location: " + data["start"];
+          document.getElementById('end').innerHTML = "End Location: " + data["end"];
+          document.getElementById('end').style.top = "100px";
+          document.getElementById('start').style.top = "60px";
+          document.getElementById('calc_route').innerHTML ="Re-Calculate";
+          document.getElementById('gain_1').innerHTML= data["elev_path_gain"].toFixed(2) + 'm';
+          document.getElementById('drop_1').innerHTML= data["elev_path_drop"].toFixed(2) + 'm';
+          document.getElementById('dist_1').innerHTML= data["elev_path_dist"].toFixed(2) + 'm';
+          document.getElementById('gain_2').innerHTML= data["gainShort"].toFixed(2) + 'm';
+          document.getElementById('drop_2').innerHTML= data["dropShort"].toFixed(2) + 'm';
+          document.getElementById('dist_2').innerHTML= data["shortDist"].toFixed(2) + 'm';
+        }
+
+        document.getElementById('calc_route').onclick=function(){
+            var map_or_address = document.getElementById("map_or_address");
+
+            if(map_or_address.innerHTML === "Type Address"){
+              var checkedValue = $('.check:checked').val();
+              var input_data='{"start_location":'+start_loc+',"x":'+document.getElementById('x').value+',"end_location":'+end_loc+',"min_max":"'+checkedValue.toString()+'"}';
+
+              $('#loading').show();
+              calc_route_reset();
+              $.ajax({
+                  type: "POST",
+                  url: '/path_via_pointers',
+                  data: input_data,
+                  success: function(data){
+                      $('#loading').hide();
+                      handleData(data, "route");
+                  },
+                  dataType: "json"
+              });
+            }
+            else if(map_or_address.innerHTML === "Select Map"){
+              var checkedValue = $('.check:checked').val();
+              var input_data = {
+                "start_address": document.getElementById("text_start_address").value,
+                "x": document.getElementById('x').value,
+                "end_address": document.getElementById("text_end_address").value,
+                "min_max": checkedValue.toString()
+              }
+              input_data = JSON.stringify(input_data);
+
+              $('#loading').show();
+              calc_route_reset();
+              $.ajax({
+                type: "POST",
+                url: '/route_address',
+                data: input_data,
+                success: function(data){
+                  $('#loading').hide();
+                  handleData(data, "route_address");
+                },
+                dataType: "json"
+              });
+            }
+
+        };
+
+        </script>
+    </body>
+</html>
