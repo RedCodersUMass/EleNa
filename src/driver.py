@@ -4,6 +4,7 @@ from src.view.view import View
 from src.controller.AStarController import *
 from src.controller.DijkstraController import *
 from src.constants.constants import *
+import json
 
 ACCESS_KEY = 'pk.eyJ1IjoibXRhayIsImEiOiJja25wNmdyMTMxYm9tMm5wZTlha2lhcmFnIn0.JsFh89MfCIDr32o-1OHmdA'
 static_folder = "./view/static"
@@ -25,11 +26,13 @@ def client():
 @app.route('/path_via_pointers', methods=['POST'])
 def get_route():
     json_output = request.get_json(force=True)
-    origin_point = (json_output['start_location']['lat'], json_output['start_location']['lng'])
-    destination_point = (json_output['end_location']['lat'], json_output['end_location']['lng'])
-    x = 20#json_output['x']
-    elevation_strategy = json_output['min_max']
-    algorithm = DIJKSTRA
+    origin_coords = json.loads(json_output['origin_coords'])
+    destination_coords - json.loads(json_output['dest_coords'])
+    origin_point = (origin_coords['lat'], origin_coords['lng'])
+    destination_point = (destination_coords['lat'], destination_coords['lng'])
+    x = float(json_output['elevation_percent'])
+    strategy = json_output['min_max']
+    algorithm = json_output['algorithm']
     model = Model()
     view = View()
     model.register_observer(view)
