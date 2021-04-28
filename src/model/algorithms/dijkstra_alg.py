@@ -12,7 +12,7 @@ class Djikstra_Alg(AlgorithmsAbstract):
     def __init__(self, graph, shortest_distance, path_limit=0.0, elevation_strategy=MAXIMIZE, starting_node=None,
                  ending_node=None):
         super(Djikstra_Alg, self).__init__(graph, shortest_distance, path_limit, elevation_strategy, starting_node,
-                                       ending_node)
+                                           ending_node)
 
     def get_route(self, parent_node, destination):
         # "returns the path given a parent mapping and the final destination"
@@ -28,8 +28,8 @@ class Djikstra_Alg(AlgorithmsAbstract):
         if not self.check_valid_starting_ending_nodes():
             return
 
-        graph, path_limit, shortest_route_weight, elevation_strategy = self.graph, self.path_limit,\
-                                                                       self.shortest_route_total_weight,\
+        graph, path_limit, shortest_route_weight, elevation_strategy = self.graph, self.path_limit, \
+                                                                       self.shortest_route_total_weight, \
                                                                        self.elevation_strategy
         starting_node, ending_node = self.starting_node, self.ending_node
 

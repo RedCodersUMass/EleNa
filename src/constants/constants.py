@@ -31,6 +31,7 @@ DJIKSTRA_SCALING_FACTOR = 0.25
 EMPTY = "empty"
 DIJKSTRA = "Dijkstra"
 A_STAR = "A-star"
+SHORTEST = "Shortest Route"
 
 DESTINATION_DISTANCE = 'dist_from_dest'
 WEIGHT = 'weight'

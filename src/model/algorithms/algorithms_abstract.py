@@ -24,20 +24,20 @@ class AlgorithmsAbstract(AlgorithmsInterface):
     def set_graph(self, graph):
         self.graph = graph
 
-    def get_path_weight(self, route, weight_attribute=BOTH, isPiecewise=False):
+    def get_path_weight(self, route, weight_attribute=BOTH, is_piecewise=False):
         # Compute total weight for a  complete given route
         total = 0
-        if isPiecewise:
+        if is_piecewise:
             piece_elevation = []
 
         for i in range(len(route) - 1):
             diff = EdgeWeightCalculator.get_weight(self.graph, route[i], route[i + 1], weight_attribute)
             total += diff
 
-            if isPiecewise:
+            if is_piecewise:
                 piece_elevation.append(diff)
 
-        if isPiecewise:
+        if is_piecewise:
             return total, piece_elevation
         else:
             return total

@@ -26,12 +26,13 @@ def client():
 @app.route('/path_via_pointers', methods=['POST'])
 def get_route():
     json_output = request.get_json(force=True)
+    print('Request - ',json_output)
     origin_coords = json.loads(json_output['origin_coords'])
-    destination_coords - json.loads(json_output['dest_coords'])
+    destination_coords = json.loads(json_output['dest_coords'])
     origin_point = (origin_coords['lat'], origin_coords['lng'])
     destination_point = (destination_coords['lat'], destination_coords['lng'])
-    x = float(json_output['elevation_percent'])
-    strategy = json_output['min_max']
+    path_limit = float(json_output['elevation_percent'])
+    elevation_strategy = MAXIMIZE #json_output['min_max'] #TODO
     algorithm = json_output['algorithm']
     model = Model()
     view = View()
@@ -43,7 +44,7 @@ def get_route():
     controller.set_model(model)
     controller.set_start_point(origin_point)
     controller.set_end_point(destination_point)
-    controller.set_x(x)
+    controller.set_path_limit(path_limit)
     controller.set_elevation_strategy(elevation_strategy)
     controller.manipulate_model()
     return view.get_output_json()

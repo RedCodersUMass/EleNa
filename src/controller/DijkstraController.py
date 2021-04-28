@@ -10,7 +10,7 @@ class DijkstraController(AbstractController):
         self.elevation_strategy = None
         self.start_point = None
         self.end_point = None
-        self.x = None
+        self.path_limit = None
 
     def set_model(self, model):
         self.model = model
@@ -24,9 +24,9 @@ class DijkstraController(AbstractController):
     def set_end_point(self, end_point):
         self.end_point = end_point
 
-    def set_x(self, x):
-        self.x = x
+    def set_path_limit(self, path_limit):
+        self.path_limit = path_limit
 
     def manipulate_model(self):
         self.model.set_algorithm(DIJKSTRA)
-        self.model.generate_paths(self.start_point, self.end_point, self.x, self.elevation_strategy)
+        self.model.generate_paths(self.start_point, self.end_point, self.path_limit, self.elevation_strategy)

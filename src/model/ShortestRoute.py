@@ -46,8 +46,4 @@ class ShortestRoute:
         shortest_route_lat_long = [[graph.nodes[route_node]['x'], graph.nodes[route_node]['y']] for route_node in
                                    self.shortest_route]
 
-        shortest_path_information = [shortest_route_latlong, self.shortest_dist,
-                             djikstra.get_path_weight(self.shortest_route, constants.ELEVATION_GAIN),
-                             djikstra.get_path_weight(self.shortest_route, constants.ELEVATION_DROP)]
-
-        return self.starting_node, self.ending_node, self.shortest_route, shortest_path_information
+        return self.starting_node, self.ending_node, self.shortest_route, shortest_route_lat_long, self.shortest_dist

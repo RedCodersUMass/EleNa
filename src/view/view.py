@@ -9,18 +9,18 @@ class View:
     def __init__(self):
         self.output_json = {}
 
-    def update_notifier(self, sPath=None, ePath=None, start=None, end=None):
-        self.output_json = {ELEV_PATH_ROUTE: update_route_json(ePath[0]),
-                            SHORTEST_PATH_ROUTE: update_route_json(sPath[0]),
-                            SHORTEST_PATH_DIST: sPath[1],
-                            SHORTEST_PATH_GAIN: sPath[2],
-                            SHORTEST_PATH_DROP: sPath[3],
-                            ORIGIN: start,
-                            DESTINATION: end,
-                            ELEV_PATH_DIST: ePath[1],
-                            ELEV_PATH_GAIN: ePath[2],
-                            ELEV_PATH_DROP: ePath[3]}
-        if len(ePath[0]) == 0:
+    def update_notifier(self, shortest_route=None, elevation_route=None, starting_point=None, ending_point=None):
+        self.output_json = {ELEV_PATH_ROUTE: update_route_json(elevation_route[0]),
+                            SHORTEST_PATH_ROUTE: update_route_json(shortest_route[0]),
+                            SHORTEST_PATH_DIST: shortest_route[1],
+                            SHORTEST_PATH_GAIN: shortest_route[2],
+                            SHORTEST_PATH_DROP: shortest_route[3],
+                            ORIGIN: starting_point,
+                            DESTINATION: ending_point,
+                            ELEV_PATH_DIST: elevation_route[1],
+                            ELEV_PATH_GAIN: elevation_route[2],
+                            ELEV_PATH_DROP: elevation_route[3]}
+        if len(elevation_route[0]) == 0:
             self.output_json[BOOL_POP] = 1
         else:
             self.output_json[BOOL_POP] = 2
