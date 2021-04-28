@@ -3,6 +3,7 @@ from src.model.model import *
 from src.view.view import View
 from src.controller.AStarController import *
 from src.controller.DijkstraController import *
+from src.constants.constants import *
 
 ACCESS_KEY = 'pk.eyJ1IjoibXRhayIsImEiOiJja25wNmdyMTMxYm9tMm5wZTlha2lhcmFnIn0.JsFh89MfCIDr32o-1OHmdA'
 static_folder = "./view/static"
@@ -26,9 +27,9 @@ def get_route():
     json_output = request.get_json(force=True)
     origin_point = (json_output['start_location']['lat'], json_output['start_location']['lng'])
     destination_point = (json_output['end_location']['lat'], json_output['end_location']['lng'])
-    x = json_output['x']
-    strategy = json_output['min_max']
-    algorithm = "AStar"
+    x = 20#json_output['x']
+    elevation_strategy = json_output['min_max']
+    algorithm = DIJKSTRA
     model = Model()
     view = View()
     model.register_observer(view)
@@ -40,6 +41,6 @@ def get_route():
     controller.set_start_point(origin_point)
     controller.set_end_point(destination_point)
     controller.set_x(x)
-    controller.set_strategy(strategy)
+    controller.set_elevation_strategy(elevation_strategy)
     controller.manipulate_model()
     return view.get_output_json()

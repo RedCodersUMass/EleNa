@@ -17,3 +17,22 @@ GEOMETRY = "geometry"
 TYPE = "type"
 COORDINATES = "coordinates"
 BOOL_POP = "bool_pop"
+
+NORMAL = "normal"
+ELEVATION_DIFFERENCE = "elevation_difference"
+ELEVATION_DROP = "elevation_drop"
+ELEVATION_GAIN = "elevation_gain"
+BOTH = "both"
+
+MAXIMIZE = "maximize"
+MINIMIZE = "minimize"
+DJIKSTRA_SCALING_FACTOR = 0.25
+
+EMPTY = "empty"
+DIJKSTRA = "Dijkstra"
+A_STAR = "A-star"
+
+DESTINATION_DISTANCE = 'dist_from_dest'
+WEIGHT = 'weight'
+ELEVATION = 'elevation'
+LENGTH = 'length'

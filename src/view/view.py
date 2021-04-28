@@ -26,4 +26,5 @@ class View:
             self.output_json[BOOL_POP] = 2
 
     def get_output_json(self):
+        print('Sending output - ', self.output_json)
         return json.dumps(self.output_json)
