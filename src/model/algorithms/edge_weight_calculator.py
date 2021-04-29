@@ -2,6 +2,9 @@ from src.constants.constants import *
 
 
 class EdgeWeightCalculator:
+    def __init__(self):
+        pass
+
     @classmethod
     def get_weight(cls, graph, node_1, node_2, weight_type=NORMAL):
         if weight_type == NORMAL:

@@ -6,12 +6,12 @@ from src.model.algorithms.algorithms_abstract import AlgorithmsAbstract
 from constants import *
 from src.model.algorithms.algorithms_abstract import EdgeWeightCalculator
 from src.constants.constants import *
+from src.model.PathInformation import *
 
-
-class Djikstra_Alg(AlgorithmsAbstract):
+class DijkstraAlgorithm(AlgorithmsAbstract):
     def __init__(self, graph, shortest_distance, path_limit=0.0, elevation_strategy=MAXIMIZE, starting_node=None,
                  ending_node=None):
-        super(Djikstra_Alg, self).__init__(graph, shortest_distance, path_limit, elevation_strategy, starting_node,
+        super(DijkstraAlgorithm, self).__init__(graph, shortest_distance, path_limit, elevation_strategy, starting_node,
                                            ending_node)
 
     def get_route(self, parent_node, destination):
@@ -75,17 +75,21 @@ class Djikstra_Alg(AlgorithmsAbstract):
             return
 
         route = self.get_route(parent_node, ending_node)
-        gain = self.get_path_weight(route, ELEVATION_GAIN)
-        drop = self.get_path_weight(route, ELEVATION_DROP)
+        path_information = PathInformation()
+        path_information.set_algorithm_name(DIJKSTRA)
+        path_information.set_total_gain(self.get_path_weight(route, ELEVATION_GAIN))
+        path_information.set_total_drop(self.get_path_weight(route, ELEVATION_DROP))
+        path_information.set_path(route)
+        path_information.set_distance(this_distance)
 
-        return [route[:], this_distance, gain, drop, DIJKSTRA]
+        return path_information
 
     def get_updated_score(self, node_1, node_2, edge_weight, this_score):
 
         # Calculates updated priority of an edge using the edge length (Scaled by the scaling factor)
 
         elevation_strategy = self.elevation_strategy
-        scaled_edge_length = edge_weight * DJIKSTRA_SCALING_FACTOR
+        scaled_edge_length = edge_weight * 0.25
 
         if elevation_strategy == MAXIMIZE:
             return scaled_edge_length + EdgeWeightCalculator.get_weight(self.graph, node_1, node_2,

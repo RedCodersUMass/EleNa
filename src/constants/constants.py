@@ -26,7 +26,6 @@ BOTH = "both"
 
 MAXIMIZE = "maximize"
 MINIMIZE = "minimize"
-DJIKSTRA_SCALING_FACTOR = 0.25
 
 EMPTY = "empty"
 DIJKSTRA = "Dijkstra"

@@ -6,6 +6,7 @@ from collections import deque, defaultdict
 from src.constants import constants
 from heapq import *
 from src.model.algorithms import *
+from src.model.RouteInformation import *
 
 MAXIMIZE = "max"
 MINIMIZE = "min"
@@ -43,7 +44,12 @@ class ShortestRoute:
         # ox.get_route function returns list of edge length for above shortest route
         self.shortest_dist = sum(ox.utils_graph.get_route_edge_attributes(graph, self.shortest_route, 'length'))
 
-        shortest_route_lat_long = [[graph.nodes[route_node]['x'], graph.nodes[route_node]['y']] for route_node in
-                                   self.shortest_route]
+        route_object = RouteInformation()
+        route_object.set_starting_point(self.starting_node)
+        route_object.set_ending_node(self.ending_node)
+        route_object.set_shortest_path(self.shortest_route)
+        route_object.set_shortest_route_lat_long([[graph.nodes[route_node]['x'], graph.nodes[route_node]['y']]
+                                                  for route_node in self.shortest_route])
+        route_object.set_shortest_path_distance(self.shortest_dist)
 
-        return self.starting_node, self.ending_node, self.shortest_route, shortest_route_lat_long, self.shortest_dist
+        return route_object
