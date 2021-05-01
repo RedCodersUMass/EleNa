@@ -24,12 +24,12 @@ ELEVATION_DROP = "elevation_drop"
 ELEVATION_GAIN = "elevation_gain"
 BOTH = "both"
 
-MAXIMIZE = "maximize"
-MINIMIZE = "minimize"
+MAXIMIZE = "max"
+MINIMIZE = "min"
 
 EMPTY = "empty"
 DIJKSTRA = "Dijkstra"
-A_STAR = "A-star"
+A_STAR = "AStar"
 SHORTEST = "Shortest Route"
 
 DESTINATION_DISTANCE = 'dist_from_dest'

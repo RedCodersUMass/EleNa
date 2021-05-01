@@ -1,4 +1,5 @@
 from src.controller.AbstractController import *
+from src.constants.constants import *
 
 
 class AStarController(AbstractController):
@@ -27,4 +28,5 @@ class AStarController(AbstractController):
         self.path_limit = path_limit
 
     def manipulate_model(self):
-        self.model.generate_paths(self.start_point, self.end_point, self.x, self.elevation_strategy)
+        self.model.set_algorithm(A_STAR)
+        self.model.generate_paths(self.start_point, self.end_point, self.path_limit, self.elevation_strategy)
