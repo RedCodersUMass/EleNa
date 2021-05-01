@@ -1,9 +1,6 @@
-import osmnx as ox
-import networkx as nx
 from heapq import *
-from collections import deque, defaultdict
+from collections import defaultdict
 from src.model.algorithms.algorithms_abstract import AlgorithmsAbstract
-from constants import *
 from src.model.algorithms.algorithms_abstract import EdgeWeightCalculator
 from src.constants.constants import *
 from src.model.PathInformation import *
@@ -14,13 +11,13 @@ class DijkstraAlgorithm(AlgorithmsAbstract):
         super(DijkstraAlgorithm, self).__init__(graph, shortest_distance, path_limit, elevation_strategy, starting_node,
                                            ending_node)
 
-    def get_route(self, parent_node, destination):
+    def get_route(self, parent_node_mapping, destination):
         # "returns the path given a parent mapping and the final destination"
         path = [destination]
-        curr = parent_node[destination]
+        curr = parent_node_mapping[destination]
         while curr != -1:
             path.append(curr)
-            curr = parent_node[curr]
+            curr = parent_node_mapping[curr]
         return path[::-1]
 
     def shortest_route(self):
@@ -39,8 +36,8 @@ class DijkstraAlgorithm(AlgorithmsAbstract):
         score_info = {starting_node: 0}
 
         # Set parent node dictionary
-        parent_node = defaultdict(int)
-        parent_node[starting_node] = -1
+        parent_node_mapping = defaultdict(int)
+        parent_node_mapping[starting_node] = -1
 
         while min_heap:
 
@@ -67,14 +64,14 @@ class DijkstraAlgorithm(AlgorithmsAbstract):
 
                     if updated_distance <= shortest_route_weight * (1.0 + path_limit) and (
                             prev is None or updated_score < prev):
-                        parent_node[adjacent_node] = this_node
+                        parent_node_mapping[adjacent_node] = this_node
                         score_info[adjacent_node] = updated_score
                         heappush(min_heap, (updated_score, updated_distance, adjacent_node))
 
         if not this_distance:
             return
 
-        route = self.get_route(parent_node, ending_node)
+        route = self.get_route(parent_node_mapping, ending_node)
         path_information = PathInformation()
         path_information.set_algorithm_name(DIJKSTRA)
         path_information.set_total_gain(self.get_path_weight(route, ELEVATION_GAIN))

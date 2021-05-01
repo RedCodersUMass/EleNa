@@ -2,6 +2,8 @@ import osmnx as ox
 from src.model.GraphGenerator import GraphGenerator
 from src.model.ShortestRoute import ShortestRoute
 from src.model.algorithms.dijkstra_alg import *
+from src.model.algorithms.astar_alg import  *
+
 from src.model.algorithms.algorithms_abstract import *
 from src.model.utils import *
 from src.view.view import *
@@ -42,7 +44,9 @@ class Model:
         if self.algorithm == DIJKSTRA:
             self.algorithm_object = DijkstraAlgorithm(self.graph, shortest_dist, path_limit, elevation_strategy,
                                                  starting_node, ending_node)
-
+        else :
+            self.algorithm_object = AStarAlg(self.graph, shortest_dist, path_limit, elevation_strategy,
+                                                 starting_node, ending_node)
     def print_route_information(self, route):
         print("------------------------------------------------")
         print("Algorithm Strategy:" + route.get_algorithm_name())
