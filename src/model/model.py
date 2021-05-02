@@ -1,15 +1,10 @@
-import osmnx as ox
 from src.model.GraphGenerator import GraphGenerator
 from src.model.ShortestRoute import ShortestRoute
-from src.model.algorithms.dijkstra_alg import *
-from src.model.algorithms.astar_alg import  *
-
-from src.model.algorithms.algorithms_abstract import *
-from src.model.utils import *
+from src.model.utils import get_address_from_coordinates
 from src.view.view import *
 from src.constants.constants import *
-from src.model.RouteInformation import *
-from src.model.PathInformation import *
+from src.model.PathInformation import PathInformation
+
 
 class Model:
     def __init__(self):
@@ -36,17 +31,10 @@ class Model:
         self.graph = GraphGenerator().generate_elevation_graph(coord_end)
         self.shortest_route_object = ShortestRoute(self.graph)
 
-    def get_best_route_object(self):
-        self.graph = GraphGenerator().generate_elevation_graph(coord_end)
-        self.shortest_route_object = ShortestRoute(self.graph)
-
     def set_algorithm_object(self, starting_node, ending_node, shortest_dist, path_limit, elevation_strategy):
-        if self.algorithm == DIJKSTRA:
-            self.algorithm_object = DijkstraAlgorithm(self.graph, shortest_dist, path_limit, elevation_strategy,
-                                                 starting_node, ending_node)
-        else :
-            self.algorithm_object = AStarAlg(self.graph, shortest_dist, path_limit, elevation_strategy,
-                                                 starting_node, ending_node)
+        self.algorithm_object = self.algorithm(self.graph, shortest_dist, path_limit, elevation_strategy,
+                                               starting_node, ending_node)
+
     def print_route_information(self, route):
         print("------------------------------------------------")
         print("Algorithm Strategy:" + route.get_algorithm_name())
@@ -75,7 +63,6 @@ class Model:
         shortest_path_information.set_path(shortest_path_object.get_shortest_route_lat_long())
         shortest_path_information.set_distance(shortest_path_object.get_shortest_path_distance())
 
-
         self.print_route_information(shortest_path_information)
 
         if path_limit == 0:
@@ -91,8 +78,8 @@ class Model:
             elevation_route_information = PathInformation()
 
         elevation_route_information.set_path([[self.graph.nodes[route_node]['x'],
-                                   self.graph.nodes[route_node]['y']]
-                                  for route_node in elevation_route_information.get_path()])
+                                               self.graph.nodes[route_node]['y']]
+                                              for route_node in elevation_route_information.get_path()])
 
         self.observer.update_notifier(shortest_path_information,
                                       elevation_route_information,

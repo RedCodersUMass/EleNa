@@ -23,10 +23,11 @@ def client():
         ACCESS_KEY=ACCESS_KEY
     )
 
+
 @app.route('/path_via_pointers', methods=['POST'])
 def get_route():
     json_output = request.get_json(force=True)
-    print('Request - ',json_output)
+    print('Request - ', json_output)
     origin_coords = json.loads(json_output['origin_coords'])
     destination_coords = json.loads(json_output['dest_coords'])
     origin_point = (origin_coords['lat'], origin_coords['lng'])
@@ -49,12 +50,14 @@ def get_route():
     controller.manipulate_model()
     return view.get_output_json()
 
+
 def convert_address_to_coordinates(location_name):
     coordinates = Nominatim(user_agent="chrome").geocode(location_name)
     if coordinates is None:
         return None, None
     else:
-        return location.latitude, location.longitude
+        return coordinates.latitude, coordinates.longitude
+
 
 @app.route('/path_via_address', methods=['POST'])
 def get_routes_via_address():
@@ -80,4 +83,7 @@ def get_routes_via_address():
     controller.set_path_limit(path_limit)
     controller.set_elevation_strategy(elevation_strategy)
     controller.manipulate_model()
-    return view.get_output_json()
+    output = view.get_output_json()
+    # Since we do not have pre selected point markers on map, we need to add them manually
+    output["start"], output["end"] = origin_point[::-1], destination_point[::-1]
+    return output
