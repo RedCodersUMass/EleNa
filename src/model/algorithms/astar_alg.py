@@ -1,14 +1,6 @@
-import osmnx as ox
-import networkx as nx
-from heapq import *
-from collections import deque, defaultdict
 from .algorithms_abstract import AlgorithmsAbstract
-from src.constants.constants import *
 from .edge_weight_calculator import *
 from ..PathInformation import PathInformation
-
-A_STAR_SCALING_ELEMENT = 0.1
-
 
 class AStarAlg(AlgorithmsAbstract):
     def __init__(self, graph, shortest_distance, path_limit=0.0, elevation_strategy=MAXIMIZE, starting_node=None,
@@ -36,7 +28,7 @@ class AStarAlg(AlgorithmsAbstract):
             return EdgeWeightCalculator.get_weight(self.graph, current_node, next_node, ELEVATION_DROP)
 
     def heuristic(self, n):
-        return self.graph.nodes[n][DESTINATION_DISTANCE] * A_STAR_SCALING_ELEMENT
+        return self.graph.nodes[n][DESTINATION_DISTANCE] * 0.1
 
     def shortest_route(self):
 

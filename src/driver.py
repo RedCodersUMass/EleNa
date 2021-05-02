@@ -54,7 +54,7 @@ def convert_address_to_coordinates(location_name):
     if coordinates is None:
         return None, None
     else:
-        return location.latitude, location.longitude
+        return coordinates.latitude, coordinates.longitude
 
 @app.route('/path_via_address', methods=['POST'])
 def get_routes_via_address():
