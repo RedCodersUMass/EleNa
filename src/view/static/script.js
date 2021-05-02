@@ -137,8 +137,10 @@ document.getElementById("submit").onclick = function(){
             dataType: "json"
         });
     } else if (!isSelect) {
-        textOriginAddress = document.getElementById("textOriginAddress");
-        textDestAddress = document.getElementById("textDestAddress");
+        textOriginAddress = document.getElementById("textOriginAddress").value.toString();
+        textDestAddress = document.getElementById("textDestAddress").value.toString();
+        console.log(textOriginAddress)
+        console.log(textDestAddress)
 
         if ((textDestAddress.length==0) || (textOriginAddress.length==0)) {
             window.alert("Address(es) cannot be empty!")
