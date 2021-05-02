@@ -31,7 +31,7 @@ def get_route():
     destination_coords = json.loads(json_output['dest_coords'])
     origin_point = (origin_coords['lat'], origin_coords['lng'])
     destination_point = (destination_coords['lat'], destination_coords['lng'])
-    path_limit = float(json_output['elevation_percent'])
+    path_limit = float(json_output['path_limit'])
     elevation_strategy = json_output['min_max']
     algorithm = json_output['algorithm']
     model = Model()
@@ -64,8 +64,8 @@ def get_routes_via_address():
     end_address = json.loads(json_output['text_dest_address'])
     origin_point = convert_address_to_coordinates(start_address)
     destination_point = convert_address_to_coordinates(end_address)
-    path_limit = float(json_output['elevation_percent'])
-    elevation_strategy = json_output['min_max'] #TODO
+    path_limit = float(json_output['path_limit'])
+    elevation_strategy = json_output['min_max']
     algorithm = json_output['algorithm']
     model = Model()
     view = View()

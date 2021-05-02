@@ -5,7 +5,15 @@ var originCoords = "";
 var destCoords = "";
 var textOriginAddress = "";
 var textDestAddress = "";
-var elevationPercent = 0;
+var pathLimit = 0;
+
+var shortestDistance = 0;
+var elevationDistance = 0;
+var elevationDrop = 0
+var elevationGain = 0;
+var shortestDrop = 0;
+var shortestGain = 0;
+
 
 function roundOff(N){
     return Math.round(N*10000)/10000;
@@ -36,7 +44,7 @@ function resetParameters() {
     destCoords = "";
     textOriginAddress = "";
     textDestAddress = "";
-    elevationPercent = 0;
+    pathLimit = 0;
     points = turf.featureCollection([]);
     map.getSource('circleData').setData(points);
 
@@ -48,7 +56,7 @@ function resetParameters() {
     }
     document.getElementById("textOriginAddress").value = "";
     document.getElementById("textDestAddress").value = "";
-    document.getElementById("elevationPercent").value = 0;
+    document.getElementById("pathLimit").value = 0;
     document.getElementById("origin").innerHTML = "";
     document.getElementById("dest").innerHTML = "";
 
@@ -58,8 +66,32 @@ function resetParameters() {
 }
 
 function resetOutputs() {
-    document.getElementById("distance").innerHTML = "";
-    document.getElementById("elevation").innerHTML = "";
+    document.getElementById("shortestDistance").innerHTML = "";
+    document.getElementById("elevationDistance").innerHTML = "";
+    document.getElementById("gainShort").innerHTML = "";
+    document.getElementById("dropShort").innerHTML = "";
+    document.getElementById("elev_path_gain").innerHTML = "";
+    document.getElementById("elev_path_drop").innerHTML = "";
+
+    elevationDistance = 0;
+    shortestDistance = 0;
+    elevationGain = 0;
+    elevationDrop = 0
+    shortestGain = 0;
+    shortestDrop = 0;
+
+    if (map.getLayer("shortest_route")) {
+        map.removeLayer("shortest_route")
+    }
+    if (map.getSource("shortest_route")) {
+        map.removeSource("shortest_route")
+    }
+    if (map.getLayer("ele_route")) {
+        map.removeLayer("ele_route")
+    }
+    if (map.getSource("ele_route")) {
+        map.removeSource("ele_route")
+    }
 }
 
 document.getElementById("manual").onclick = function(){
@@ -73,15 +105,13 @@ document.getElementById("select").onclick = function(){
 };
 
 document.getElementById("reset").onclick = function(){
-
     resetParameters();
-
 };
 
 document.getElementById("submit").onclick = function(){
     var algorithm = $('input[name="algorithm"]:checked').val();
     var minMaxElevation = $('input[name="elevation"]:checked').val();
-    elevationPercent = document.getElementById("elevationPercent").value;
+    pathLimit = document.getElementById("pathLimit").value;
 
     if(isSelect) {
         var submitData = {
@@ -89,7 +119,7 @@ document.getElementById("submit").onclick = function(){
             "dest_coords": destCoords,
             "min_max": minMaxElevation.toString(),
             "algorithm": algorithm.toString(),
-            "elevation_percent": elevationPercent
+            "path_limit": pathLimit
         }
 
         submitData = JSON.stringify(submitData);
@@ -102,6 +132,28 @@ document.getElementById("submit").onclick = function(){
             data: submitData,
             success: function(data) {
                 plotRoute(data, "select")
+                updateOutputs(data)
+            },
+            dataType: "json"
+        });
+    } else if (!isSelect) {
+        var submitData = {
+            "text_origin_address": textOriginAddress,
+            "text_dest_address": textDestAddress,
+            "min_max": minMaxElevation.toString(),
+            "algorithm": algorithm.toString(),
+            "path_limit": pathLimit
+        }
+
+        submitData = JSON.stringify(submitData);
+
+        $.ajax({
+            type: "POST",
+            url: "/path_via_address",
+            data: submitData,
+            success: function(data) {
+                plotRoute(data, "address")
+                updateOutputs(data)
             },
             dataType: "json"
         });
@@ -110,6 +162,7 @@ document.getElementById("submit").onclick = function(){
 };
 
 function plotRoute(data, endpoint) {
+    console.log(data)
     if (data["bool_pop"] === -1) {
         if (originMarker) {
             originMarker.remove();
@@ -139,8 +192,8 @@ function plotRoute(data, endpoint) {
             "line-cap": "round"
         },
         "paint": {
-            "line-color": "Green",
-            "line-width": 2
+            "line-color": "Blue",
+            "line-width": 5
         }
     });
 
@@ -158,7 +211,7 @@ function plotRoute(data, endpoint) {
             "line-cap": "round"
         },
         "paint": {
-            "line-color": "Yellow",
+            "line-color": "Red",
             "line-width": 2
         }
     });
@@ -167,7 +220,12 @@ function plotRoute(data, endpoint) {
 }
 
 function updateOutputs(data) {
-    console.log(data);
+    document.getElementById("shortestDistance").innerHTML = data["shortDist"].toFixed(4) + " meters";
+    document.getElementById("elevationDistance").innerHTML = data["elev_path_dist"].toFixed(4) + " meters";
+    document.getElementById("gainShort").innerHTML = data["gainShort"].toFixed(4) + " meters";
+    document.getElementById("dropShort").innerHTML = data["dropShort"].toFixed(4) + " meters";
+    document.getElementById("elev_path_gain").innerHTML = data["elev_path_gain"].toFixed(4) + " meters";
+    document.getElementById("elev_path_drop").innerHTML = data["elev_path_drop"].toFixed(4) + " meters";
 }
 
 mapboxgl.accessToken = access_key;
