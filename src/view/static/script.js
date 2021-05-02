@@ -137,6 +137,13 @@ document.getElementById("submit").onclick = function(){
             dataType: "json"
         });
     } else if (!isSelect) {
+        textOriginAddress = document.getElementById("textOriginAddress");
+        textDestAddress = document.getElementById("textDestAddress");
+
+        if ((textDestAddress.length==0) || (textOriginAddress.length==0)) {
+            window.alert("Address(es) cannot be empty!")
+        }
+
         var submitData = {
             "text_origin_address": textOriginAddress,
             "text_dest_address": textDestAddress,
@@ -177,6 +184,7 @@ function plotRoute(data, endpoint) {
     if(data["bool_pop"]==0 || data["bool_pop"]===1) {
         return;
     }
+
 
     map.addSource("ele_route", {
         "type": "geojson",
