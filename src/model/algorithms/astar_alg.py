@@ -89,7 +89,7 @@ class AStarAlg(AlgorithmsAbstract):
                                     total_score,
                                     unvisited_nodes, visited_nodes, other_route_score)
 
-            return PathInformation()
+        return PathInformation()
 
     def update_g_and_f_scores(self, G, parent_node_mapping, route_score, shortest_route_total_weight, current_node,
                            path_limit, total_score,
