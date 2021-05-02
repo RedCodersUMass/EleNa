@@ -65,7 +65,7 @@ def get_routes_via_address():
     origin_point = convert_address_to_coordinates(start_address)
     destination_point = convert_address_to_coordinates(end_address)
     path_limit = float(json_output['elevation_percent'])
-    elevation_strategy = MAXIMIZE  # json_output['min_max'] #TODO
+    elevation_strategy = json_output['min_max'] #TODO
     algorithm = json_output['algorithm']
     model = Model()
     view = View()
