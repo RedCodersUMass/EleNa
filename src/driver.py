@@ -63,8 +63,8 @@ def convert_address_to_coordinates(location_name):
 def get_routes_via_address():
     json_output = request.get_json(force=True)
     print('Request - ', json_output)
-    start_address = 'UMass Amherst Amherst' #json.loads(json_output['text_origin_address'])
-    end_address = '115 Brittany Manor Drive Amherst' #json.loads(json_output['text_dest_address'])
+    start_address = json_output['text_origin_address']
+    end_address = json_output['text_dest_address']
 
     origin_point = convert_address_to_coordinates(start_address)
     destination_point = convert_address_to_coordinates(end_address)
