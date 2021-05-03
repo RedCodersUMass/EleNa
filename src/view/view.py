@@ -1,9 +1,6 @@
 import json
-from src.constants.constants import *
 from src.view.utils import *
-from flask import Flask, request, render_template
 from src.model.model import *
-from src.model.PathInformation import *
 
 
 class View:

@@ -6,8 +6,11 @@ from src.controller.DijkstraController import *
 from src.constants.constants import *
 import json
 from geopy.geocoders import Nominatim
+import googlemaps
 
 ACCESS_KEY = 'pk.eyJ1IjoibXRhayIsImEiOiJja25wNmdyMTMxYm9tMm5wZTlha2lhcmFnIn0.JsFh89MfCIDr32o-1OHmdA'
+GOOGLE_MAP_API_KEY = 'AIzaSyDi1gpXppDygu9VMC5bXRNB7SdpSuGDXUw'
+gmaps = googlemaps.Client(key=GOOGLE_MAP_API_KEY)
 static_folder = "./view/static"
 template_folder = "./view/templates"
 static_url_path = ''
@@ -52,21 +55,20 @@ def get_route():
 
 
 def convert_address_to_coordinates(location_name):
-    coordinates = Nominatim(user_agent="chrome").geocode(location_name)
-    if coordinates is None:
-        return None, None
-    else:
-        return coordinates.latitude, coordinates.longitude
+    geocode_result = gmaps.geocode(location_name)
+    return geocode_result[0]['geometry']['location']['lat'], geocode_result[0]['geometry']['location']['lng']
 
 
 @app.route('/path_via_address', methods=['POST'])
 def get_routes_via_address():
     json_output = request.get_json(force=True)
     print('Request - ', json_output)
-    start_address = json.loads(json_output['text_origin_address'])
-    end_address = json.loads(json_output['text_dest_address'])
+    start_address = 'UMass Amherst Amherst' #json.loads(json_output['text_origin_address'])
+    end_address = '115 Brittany Manor Drive Amherst' #json.loads(json_output['text_dest_address'])
+
     origin_point = convert_address_to_coordinates(start_address)
     destination_point = convert_address_to_coordinates(end_address)
+    print(origin_point, destination_point)
     path_limit = float(json_output['path_limit'])
     elevation_strategy = json_output['min_max']
     algorithm = json_output['algorithm']
@@ -85,5 +87,5 @@ def get_routes_via_address():
     controller.manipulate_model()
     output = view.get_output_json()
     # Since we do not have pre selected point markers on map, we need to add them manually
-    output["start"], output["end"] = origin_point[::-1], destination_point[::-1]
+    # output["start"], output["end"] = origin_point[::-1], destination_point[::-1]
     return output

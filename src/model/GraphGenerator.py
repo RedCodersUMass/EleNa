@@ -20,6 +20,7 @@ class GraphGenerator:
         self.graph = ox.graph_from_point(self.centre_point, dist=15000, network_type='walk')
         # After creating the graph, add the elevation attributes
         self.graph = ox.add_node_elevations(self.graph, api_key=self.google_map_api_key)
+
         # Saving the graph which had been created.
         pkl.dump(self.graph, open(self.offline_map_location, "wb"))
         print("The Graph has been saved")
@@ -30,6 +31,7 @@ class GraphGenerator:
         if os.path.exists(self.offline_map_location):
             self.graph = pkl.load(open(self.offline_map_location, "rb"))
             print("Offline Map loaded!")
+            self.graph = ox.add_edge_grades(self.graph)
         else:
             print("No offline map found.")
             self.cache_map()

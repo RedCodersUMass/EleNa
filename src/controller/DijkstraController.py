@@ -1,6 +1,6 @@
 from src.controller.AbstractController import *
 from src.constants.constants import *
-from src.model.algorithms.dijkstra_alg import DijkstraAlgorithm
+from src.model.DijkstraRoute import DijkstraRoute
 
 class DijkstraController(AbstractController):
 
@@ -28,5 +28,5 @@ class DijkstraController(AbstractController):
         self.path_limit = path_limit
 
     def manipulate_model(self):
-        self.model.set_algorithm(DijkstraAlgorithm)
+        self.model.set_algorithm(DijkstraRoute)
         self.model.generate_paths(self.start_point, self.end_point, self.path_limit, self.elevation_strategy)

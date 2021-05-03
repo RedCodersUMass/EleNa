@@ -4,6 +4,9 @@ from src.model.utils import get_address_from_coordinates
 from src.view.view import *
 from src.constants.constants import *
 from src.model.PathInformation import PathInformation
+from src.model.DijkstraRoute import DijkstraRoute
+from src.model.AStarRoute import AstarRoute
+from src.model.utils import get_path_weight
 
 
 class Model:
@@ -11,9 +14,14 @@ class Model:
         self.mapbox_api_key = None
         self.graph = None
         self.shortest_route_object = None
+        self.shortest_path_information = None
+        self.elevation_route_object = None
+        self.elevation_path_information = None
         self.observer = None
         self.algorithm = None
         self.algorithm_object = None
+        self.path_limit = None
+        self.elevation_strategy = None
 
     def register_observer(self, observer):
         self.observer = observer
@@ -27,13 +35,19 @@ class Model:
     def set_mapbox_api(self, api_key):
         self.mapbox_api_key = api_key
 
-    def set_shortest_route_object(self, coord_end):
+    def set_shortest_route_object(self, coord_start, coord_end):
         self.graph = GraphGenerator().generate_elevation_graph(coord_end)
         self.shortest_route_object = ShortestRoute(self.graph)
+        self.shortest_path_information = self.shortest_route_object.get_shortest_route(coord_start, coord_end)
 
-    def set_algorithm_object(self, starting_node, ending_node, shortest_dist, path_limit, elevation_strategy):
-        self.algorithm_object = self.algorithm(self.graph, shortest_dist, path_limit, elevation_strategy,
-                                               starting_node, ending_node)
+    def set_algorithm_object(self):
+        self.algorithm_object = self.algorithm(self.graph,
+                                               self.shortest_path_information.get_distance(),
+                                               self.path_limit,
+                                               self.elevation_strategy,
+                                               self.shortest_path_information.get_starting_node(),
+                                               self.shortest_path_information.get_ending_node(),
+                                               self.shortest_path_information.get_total_gain())
 
     def print_route_information(self, route):
         print("------------------------------------------------")
@@ -44,44 +58,24 @@ class Model:
 
     def generate_paths(self, origin, destination, path_limit, elevation_strategy):
         # calculate shortest path
-        self.set_shortest_route_object(destination)
-
-        shortest_path_object = self.shortest_route_object.get_shortest_route(origin, destination)
-        path_limit = path_limit / 100.0
-        self.set_algorithm_object(shortest_path_object.get_starting_point(),
-                                  shortest_path_object.get_ending_node(),
-                                  shortest_path_object.get_shortest_path_distance(),
-                                  path_limit,
-                                  elevation_strategy)
-
-        shortest_path_information = PathInformation()
-        shortest_path_information.set_algorithm_name(SHORTEST)
-        shortest_path_information.set_total_gain(
-            self.algorithm_object.get_path_weight(shortest_path_object.get_shortest_path(), ELEVATION_GAIN))
-        shortest_path_information.set_total_drop(
-            self.algorithm_object.get_path_weight(shortest_path_object.get_shortest_path(), ELEVATION_DROP))
-        shortest_path_information.set_path(shortest_path_object.get_shortest_route_lat_long())
-        shortest_path_information.set_distance(shortest_path_object.get_shortest_path_distance())
-
-        self.print_route_information(shortest_path_information)
-
+        self.set_shortest_route_object(origin, destination)
+        self.print_route_information(self.shortest_path_information)
         if path_limit == 0:
-            return shortest_path_information, shortest_path_information
+            self.observer.update_notifier(self.shortest_path_information,
+                                          self.shortest_path_information,
+                                          get_address_from_coordinates(origin),
+                                          get_address_from_coordinates(destination))
+            return
 
-        elevation_route_information = self.algorithm_object.shortest_route()
+        self.path_limit = path_limit / 100.0
+        self.elevation_strategy = elevation_strategy
 
-        self.print_route_information(elevation_route_information)
+        self.set_algorithm_object()
+        self.elevation_path_information = self.algorithm_object.get_shortest_route()
 
-        # If elevation route doesn't return a shortest path based on elevation requirements
-        if (elevation_strategy == MAXIMIZE and elevation_route_information.get_total_gain() == float('-inf')) or (
-                elevation_strategy == MINIMIZE and elevation_route_information.get_total_drop() == float('-inf')):
-            elevation_route_information = PathInformation()
+        self.print_route_information(self.elevation_path_information)
 
-        elevation_route_information.set_path([[self.graph.nodes[route_node]['x'],
-                                               self.graph.nodes[route_node]['y']]
-                                              for route_node in elevation_route_information.get_path()])
-
-        self.observer.update_notifier(shortest_path_information,
-                                      elevation_route_information,
+        self.observer.update_notifier(self.shortest_path_information,
+                                      self.elevation_path_information,
                                       get_address_from_coordinates(origin),
                                       get_address_from_coordinates(destination))
