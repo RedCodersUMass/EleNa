@@ -59,10 +59,10 @@
                         <h5 class="card-title" style="text-decoration: underline;">Route Statistics</h5>
                         <div class="row" style="color:red;">
                             <div class="col-md-5">
-                                <p>Shortest Path Drop: </p>
+                                <p style="color:red;">Shortest Distance: </p>
                             </div>
                             <div class="col-md-5">
-                                <p id="dropShort"></p>
+                                <p id="shortestDistance" style="color:red;"></p>
                             </div>
                         </div>
                         <div class="row" style="color:red;">
@@ -72,6 +72,14 @@
                             <div class="col-md-5">
                                 <p id="gainShort"></p>
                             </div>
+                        </div>
+                        <div class="row" style="color:blue;">
+                            <div class="col-md-5">
+                                <p style="color:blue;">Elevation Distance: </p>
+                            </div>
+                            <div class="col-md-5">
+                                <p id="elevationDistance" style="color:blue;"></p>
+                            </div>
                         </div>   
                         <div class="row" style="color:blue;">
                             <div class="col-md-5">
@@ -79,14 +87,6 @@
                             </div>
                             <div class="col-md-5">
                                 <p id="elev_path_gain"></p>
-                            </div>
-                        </div>
-                        <div class="row" style="color:blue;">
-                            <div class="col-md-5">
-                                <p>Elevation Path Drop: </p>
-                            </div>
-                            <div class="col-md-5">
-                                <p id="elev_path_drop"></p>
                             </div>
                         </div>
                     </div>
@@ -111,12 +111,6 @@
                         <h4 class="card-title">Coordinates</h4>
                         <p>Origin: </p><p id="origin"></p><br>
                         <p>Destination: </p><p id="dest"></p><br>
-                    </div>
-                    <h3></h3>
-                    <div class="card" style="border: 2px solid gray;">
-                        <h4 class="card-title">Output</h4>
-                        <p style="color:red;">Shortest Distance: </p><p id="shortestDistance" style="color:red;"></p><br>
-                        <p style="color:blue;">Elevation Gain: </p><p id="elevationDistance" style="color:blue;"></p><br>
                     </div>
                 </div>   
             </div>
