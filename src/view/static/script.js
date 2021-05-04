@@ -69,9 +69,9 @@ function resetOutputs() {
     document.getElementById("shortestDistance").innerHTML = "";
     document.getElementById("elevationDistance").innerHTML = "";
     document.getElementById("gainShort").innerHTML = "";
-    document.getElementById("dropShort").innerHTML = "";
+    //document.getElementById("dropShort").innerHTML = "";
     document.getElementById("elev_path_gain").innerHTML = "";
-    document.getElementById("elev_path_drop").innerHTML = "";
+    //document.getElementById("elev_path_drop").innerHTML = "";
 
     elevationDistance = 0;
     shortestDistance = 0;
@@ -233,9 +233,9 @@ function updateOutputs(data) {
     document.getElementById("shortestDistance").innerHTML = data["shortDist"].toFixed(4) + " meters";
     document.getElementById("elevationDistance").innerHTML = data["elev_path_dist"].toFixed(4) + " meters";
     document.getElementById("gainShort").innerHTML = data["gainShort"].toFixed(4) + " meters";
-    document.getElementById("dropShort").innerHTML = data["dropShort"].toFixed(4) + " meters";
+    //document.getElementById("dropShort").innerHTML = data["dropShort"].toFixed(4) + " meters";
     document.getElementById("elev_path_gain").innerHTML = data["elev_path_gain"].toFixed(4) + " meters";
-    document.getElementById("elev_path_drop").innerHTML = data["elev_path_drop"].toFixed(4) + " meters";
+    //document.getElementById("elev_path_drop").innerHTML = data["elev_path_drop"].toFixed(4) + " meters";
 }
 
 mapboxgl.accessToken = access_key;
