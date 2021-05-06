@@ -14,7 +14,9 @@ ELEVATION_GAIN = "elevation_gain"
 
 
 class AstarRoute:
-
+    """
+    This class computes the shortest route considering elevation into account and uses Dijkstra algorithm.
+    """
     def __init__(self, graph, shortest_dist, path_limit, elevation_strategy, starting_node, ending_node, shortest_path_elevation_gain):
         self.logger = logging.getLogger(__name__)
         self.graph = graph
@@ -31,8 +33,13 @@ class AstarRoute:
     def dist(self, a, b):
         return self.graph.nodes[a]['dist_from_dest'] * 1/self.scaling_factor
 
-    # Calculates shortest route between starting and ending node
     def get_shortest_route(self):
+        """
+        This method computes shortest route by taking edge weights and elevation into consideration.
+
+        Returns:
+            RouteInformation object
+        """
         graph = self.graph
         if self.elevation_strategy == MINIMIZE:
             min_max_factor = 1

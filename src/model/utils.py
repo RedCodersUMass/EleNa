@@ -3,11 +3,18 @@ from src.constants.constants import *
 
 
 def get_address_from_coordinates(coordinates):
+    """
+    This method fetches the address from the coordinates using Nominatim API.
+    Args:
+        coordinates: the latitude, longitude coordinates.
+
+    Returns:
+        address in human readable format.
+    """
     return Nominatim(user_agent="myGeocoder").reverse(coordinates).address
 
 
 def get_path_weight(graph, route, weight_attribute, is_piecewise=False):
-    # Compute total weight for a  complete given route
     total = 0
     if is_piecewise:
         piece_elevation = []

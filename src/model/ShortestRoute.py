@@ -15,7 +15,9 @@ ELEVATION_GAIN = "elevation_gain"
 
 
 class ShortestRoute:
-
+    """
+    This class computes the shortest path without taking elevation into consideration.
+    """
     def __init__(self, graph):
         self.logger = logging.getLogger(__name__)
         self.graph = graph
@@ -24,8 +26,16 @@ class ShortestRoute:
         self.shortest_route = None
         self.shortest_dist = None
 
-    # Calculates shortest route between starting and ending node
     def get_shortest_route(self, starting_point, ending_point):
+        """
+        This method computes shortest route by only taking edge weights into consideration.
+        Args:
+            starting_point: the (lat,lng) of the starting point
+            ending_point: the (lat,lng) of the destination point
+
+        Returns:
+            RouteInformation object
+        """
         graph = self.graph
         self.starting_node, self.ending_node = None, None
 
