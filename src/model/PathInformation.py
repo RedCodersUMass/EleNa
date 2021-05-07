@@ -13,66 +13,66 @@ class PathInformation:
 
     def set_algorithm_name(self, algorithm_name):
         """
-
+        This method sets the algorithm name to the name that is  passed as the parameter to the method.
         Args:
             algorithm_name:
 
         Returns:
-            Nothing,this is a setter method for the algorithm name.
 
         """
         self.algorithm_name = algorithm_name
 
     def set_total_gain(self, total_gain):
         """
+        This method sets the total gain to the value that is  passed as the parameter to the method.
 
         Args:
             total_gain:
 
         Returns:
-            Nothing,this is a setter method for the total gain.
 
         """
         self.total_gain = total_gain
 
     def set_total_drop(self, total_drop):
         """
+        This method sets the total drop  to the value that is  passed as the parameter to the method.
 
         Args:
             total_drop:
 
         Returns:
-            Nothing,this is a setter method for the total drop.
 
         """
         self.total_drop = total_drop
 
     def set_path(self, path):
         """
+        This method sets the path to the value that is  passed as the parameter to the method.
 
         Args:
             path:
 
         Returns:
-            Nothing,this is a setter method for the path.
 
         """
         self.path = path
 
     def set_distance(self, distance):
         """
+        This method sets the distance  to the value that is  passed as the parameter to the method.
 
         Args:
             distance:
 
         Returns:
-             Nothing,this is a setter method for the distance.
 
         """
         self.distance = distance
 
     def get_algorithm_name(self):
         """
+        This is the getter method for fetching the algorithm name.
 
         Returns:The algorithm name
 
@@ -81,6 +81,7 @@ class PathInformation:
 
     def get_total_gain(self):
         """
+        This is the getter method for fetching the total gain.
 
         Returns:The total gain
 
@@ -90,6 +91,7 @@ class PathInformation:
 
     def get_total_drop(self):
         """
+        This is the getter method for fetching the total drop.
 
         Returns:The total drop
 
@@ -98,6 +100,7 @@ class PathInformation:
 
     def get_path(self):
         """
+        This is the getter method for fetching the path information.
 
         Returns:The path information.
 
@@ -106,25 +109,27 @@ class PathInformation:
 
     def get_distance(self):
         """
+        This is the getter method for fetching the distance.
 
         Returns:Distance between two places.
-
         """
         return self.distance
 
     def set_starting_node(self, starting_node):
         """
+        This method sets the starting node to the value that is  passed as the parameter to the method.
 
         Args:
             starting_node:
 
         Returns:
-        Nothing,this sets the starting node value.
+
         """
         self.starting_node = starting_node
 
     def get_starting_node(self):
         """
+        This is the getter method for fetching the starting node value.
 
         Returns:The starting node value
 
@@ -133,18 +138,19 @@ class PathInformation:
 
     def set_ending_node(self, ending_node):
         """
+        This method sets the ending node to the value that is  passed as the parameter to the method.
 
         Args:
             ending_node:
 
         Returns:
-            Nothing,this sets the ending node value.
 
         """
         self.ending_node = ending_node
 
     def get_ending_node(self):
         """
+        This is the getter method for fetching the ending node value.
 
         Returns:The ending node value
 
