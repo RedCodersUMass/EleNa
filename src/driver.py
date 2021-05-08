@@ -1,3 +1,7 @@
+"""
+This file contains calls to methods that drive the application flow such as rendering the view,launching the model,calling the appropriate
+controller based on user input,fetching the final output etc.
+"""
 from flask import Flask, request, render_template
 from src.model.model import *
 from src.view.view import View
@@ -21,6 +25,13 @@ app.config.from_envvar('APP_CONFIG_FILE', silent=True)
 
 @app.route('/view')
 def client():
+    """
+    This method launches the view.
+
+    Returns:view.html
+
+    """
+
     return render_template(
         'view.html',
         ACCESS_KEY=ACCESS_KEY
@@ -29,6 +40,13 @@ def client():
 
 @app.route('/path_via_pointers', methods=['POST'])
 def get_route():
+    """
+    This method sets the parameters based on the user input(map selection) and launches the model and the controller and
+    fetches the final route to be displayed to the user.
+
+    Returns:The view to be displayed to the end user.
+
+    """
     json_output = request.get_json(force=True)
     print('Request - ', json_output)
     origin_coords = json.loads(json_output['origin_coords'])
@@ -55,12 +73,26 @@ def get_route():
 
 
 def convert_address_to_coordinates(location_name):
+    """
+    This method converts the address given by user into coordinates.
+    Args:
+        location_name:
+
+    Returns:
+        The latitude and longitude values of the given location_name.
+    """
     geocode_result = gmaps.geocode(location_name)
     return geocode_result[0]['geometry']['location']['lat'], geocode_result[0]['geometry']['location']['lng']
 
 
 @app.route('/path_via_address', methods=['POST'])
 def get_routes_via_address():
+    """
+    This method sets the parameters based on the user input in the form of address and launches the model and the controller and
+    fetches the final route to be displayed to the user.
+    Returns:
+    The view to be displayed to the end user.
+    """
     json_output = request.get_json(force=True)
     print('Request - ', json_output)
     start_address = json_output['text_origin_address']
