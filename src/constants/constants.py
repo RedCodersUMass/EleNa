@@ -1,3 +1,6 @@
+"""
+This file sets the default values for all the constants used in the application.
+"""
 SHORTEST_PATH_DIST = "shortDist"
 SHORTEST_PATH_GAIN = "gainShort"
 SHORTEST_PATH_DROP = "dropShort"
