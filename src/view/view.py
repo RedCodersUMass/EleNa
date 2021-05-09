@@ -4,7 +4,13 @@ from src.model.model import *
 
 
 class View:
+    """
+    This class is the View class. Formats the output JSON object.
+    """
     def __init__(self):
+        """
+        View class constructor method.
+        """
         self.output_json = {}
 
     def update_notifier(self, shortest_route=None, elevation_route=None, starting_point=None, ending_point=None):
@@ -24,5 +30,11 @@ class View:
             self.output_json[BOOL_POP] = 2
 
     def get_output_json(self):
+        """
+        Returns output JSON object.
+
+        Returns:
+            JSON object
+        """
         print('Sending output - ', self.output_json)
         return json.dumps(self.output_json)

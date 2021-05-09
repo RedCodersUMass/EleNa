@@ -15,6 +15,19 @@ def get_address_from_coordinates(coordinates):
 
 
 def get_path_weight(graph, route, weight_attribute, is_piecewise=False):
+    """
+    Gets path weights,
+
+    Args:
+        graph: graph
+        route: route
+        weight_attribute: weight_attribute
+        is_piecewise: boolean 
+
+    Returns:
+        total: total weight
+        piece_elevation: piecewise elevation
+    """
     total = 0
     if is_piecewise:
         piece_elevation = []
