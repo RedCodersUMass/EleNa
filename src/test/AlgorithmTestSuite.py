@@ -30,15 +30,18 @@ class AlgorithmTestSuite(unittest.TestCase):
         Returns:
 
         """
+        # Creating a test graph.
         G = nx.Graph()
-        # Create toy graph with nodes 0-5
+        # Adding the a few nodes
         [G.add_node(i, elevation=0.0) for i in range(5)]
-        edgeList = [(0, 1, 7), (1, 2, 3.0), (0, 3, 5), (3, 4, 4.0), (4, 2, 10)]
-        elevList = [(0, 1, 0.0), (1, 2, 1.0), (0, 3, 3.0), (3, 4, 1.0), (4, 2, -3.0)]
-        absElevList = [(0, 1, 0.0), (1, 2, 1.0), (0, 3, 3.0), (3, 4, 1.0), (4, 2, 3.0)]
-        G.add_weighted_edges_from(edgeList)
-        G.add_weighted_edges_from(elevList, weight="grade")
-        G.add_weighted_edges_from(absElevList, weight="grade_abs")
+        # Adding edge lengths
+        edge_lengths = [(0, 1, 7), (1, 2, 3.0), (0, 3, 5), (3, 4, 4.0), (4, 2, 10)]
+        # Adding edge elevations
+        edge_elevations = [(0, 1, 0.0), (1, 2, 1.0), (0, 3, 3.0), (3, 4, 1.0), (4, 2, -3.0)]
+        edge_abs_elevations = [(0, 1, 0.0), (1, 2, 1.0), (0, 3, 3.0), (3, 4, 1.0), (4, 2, 3.0)]
+        G.add_weighted_edges_from(edge_lengths)
+        G.add_weighted_edges_from(edge_elevations, weight="grade")
+        G.add_weighted_edges_from(edge_abs_elevations, weight="grade_abs")
         elev = [0.0, 0.0, 1.0, 3.0, 4.0]
         for i, e in enumerate(elev):
             G.nodes[i]["elevation"] = e
