@@ -53,7 +53,7 @@ class ShortestRoute:
         shortest_path_information.set_ending_node(self.ending_node)
         shortest_path_information.set_algorithm_name(SHORTEST)
         shortest_path_information.set_total_gain(get_path_weight(self.graph, self.shortest_route, ELEVATION_GAIN))
-        shortest_path_information.set_total_drop(get_path_weight(self.graph, self.shortest_route, ELEVATION_DROP))
+        shortest_path_information.set_total_drop(0)
         shortest_path_information.set_path([[graph.nodes[route_node]['x'], graph.nodes[route_node]['y']]
                                             for route_node in self.shortest_route])
         shortest_path_information.set_distance(

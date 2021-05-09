@@ -118,11 +118,11 @@ class Model:
         Returns:
 
         """
-        print("------------------------------------------------")
+        print("#")
         print("Algorithm Strategy:" + route.get_algorithm_name())
         print("Total Distance: " + str(route.get_distance()))
         print("Elevation Gain: " + str(route.get_total_gain()))
-        print("Elevation Drop: " + str(route.get_total_drop()))
+        print("#")
 
     def generate_paths(self, origin, destination, path_limit, elevation_strategy):
         """

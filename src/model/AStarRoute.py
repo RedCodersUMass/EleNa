@@ -65,7 +65,7 @@ class AstarRoute:
         shortest_path_information = PathInformation()
         shortest_path_information.set_algorithm_name(A_STAR)
         shortest_path_information.set_total_gain(get_path_weight(self.graph, self.elevation_route, ELEVATION_GAIN))
-        shortest_path_information.set_total_drop(get_path_weight(self.graph, self.elevation_route, ELEVATION_DROP))
+        shortest_path_information.set_total_drop(0)
         shortest_path_information.set_path([[graph.nodes[route_node]['x'], graph.nodes[route_node]['y']]
                                             for route_node in self.elevation_route])
         shortest_path_information.set_distance(sum(ox.utils_graph.get_route_edge_attributes(graph, self.elevation_route, 'length')))
