@@ -1,12 +1,13 @@
 import json
+
 from src.view.utils import *
-from src.model.model import *
 
 
 class View:
     """
     This class is the View class. Formats the output JSON object.
     """
+
     def __init__(self):
         """
         View class constructor method.

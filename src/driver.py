@@ -2,15 +2,15 @@
 This file contains calls to methods that drive the application flow such as rendering the view,launching the model,calling the appropriate
 controller based on user input,fetching the final output etc.
 """
+import json
+
+import googlemaps
 from flask import Flask, request, render_template
-from src.model.model import *
-from src.view.view import View
+
 from src.controller.AStarController import *
 from src.controller.DijkstraController import *
-from src.constants.constants import *
-import json
-from geopy.geocoders import Nominatim
-import googlemaps
+from src.model.model import *
+from src.view.view import View
 
 ACCESS_KEY = 'pk.eyJ1IjoibXRhayIsImEiOiJja25wNmdyMTMxYm9tMm5wZTlha2lhcmFnIn0.JsFh89MfCIDr32o-1OHmdA'
 GOOGLE_MAP_API_KEY = 'AIzaSyDi1gpXppDygu9VMC5bXRNB7SdpSuGDXUw'

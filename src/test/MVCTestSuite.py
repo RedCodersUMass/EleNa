@@ -1,25 +1,13 @@
 import unittest
-import sys
-import unittest
 
-from geopy.geocoders import Nominatim
-
-from src.controller import *
-from src.model.GraphGenerator import *
-from src.model.AStarRoute import *
-from src.model.DijkstraRoute import *
-from src.model.ShortestRoute import *
-from src.model.utils import *
-import osmnx as ox
-import json
 from src.driver import *
-from src.model.PathInformation import PathInformation
 
 
 class MVCTestSuite(unittest.TestCase):
     """
     This class contains unittest cases to check the working of the model view controller architecture.
     """
+
     def test_dijkstra_controller(self):
         """
         This test case checks if the dijkstra controller makes the required changes to the model.
@@ -63,6 +51,7 @@ class MVCTestSuite(unittest.TestCase):
         controller.set_elevation_strategy(elevation_strategy)
         controller.manipulate_model()
         assert model.algorithm == AstarRoute
+
 
 if __name__ == '__main__':
     unittest.main()

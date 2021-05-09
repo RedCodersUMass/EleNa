@@ -1,19 +1,8 @@
 import unittest
-import sys
-import unittest
 
-from geopy.geocoders import Nominatim
-
-from src.controller import *
-from src.model.GraphGenerator import *
-from src.model.AStarRoute import *
-from src.model.DijkstraRoute import *
+from src.driver import *
 from src.model.ShortestRoute import *
 from src.model.utils import *
-import osmnx as ox
-import json
-from src.driver import *
-from src.model.PathInformation import PathInformation
 
 
 class AlgorithmTestSuite(unittest.TestCase):
@@ -46,7 +35,6 @@ class AlgorithmTestSuite(unittest.TestCase):
         for i, e in enumerate(elev):
             G.nodes[i]["elevation"] = e
         self.G = G
-
 
     def test_get_graph(self):
         """
@@ -134,7 +122,7 @@ class AlgorithmTestSuite(unittest.TestCase):
         elev_path_dist = out_json['elev_path_dist']
         shortest_path_elev = out_json['gainShort']
         elev_path_gain = out_json['elev_path_gain']
-        assert elev_path_dist <= (1+ path_limit/100) * shortest_path_dist
+        assert elev_path_dist <= (1 + path_limit / 100) * shortest_path_dist
         assert elev_path_gain <= shortest_path_elev
 
     def test_dijkstra_shortest_path(self):
@@ -162,7 +150,7 @@ class AlgorithmTestSuite(unittest.TestCase):
         elev_path_dist = out_json['elev_path_dist']
         shortest_path_elev = out_json['gainShort']
         elev_path_gain = out_json['elev_path_gain']
-        assert elev_path_dist <= (1+ path_limit/100) * shortest_path_dist
+        assert elev_path_dist <= (1 + path_limit / 100) * shortest_path_dist
         assert elev_path_gain <= shortest_path_elev
 
     def test_astar_max_elevation(self):
@@ -190,7 +178,7 @@ class AlgorithmTestSuite(unittest.TestCase):
         elev_path_dist = out_json['elev_path_dist']
         shortest_path_elev = out_json['gainShort']
         elev_path_gain = out_json['elev_path_gain']
-        assert elev_path_dist <= (1+ path_limit/100) * shortest_path_dist
+        assert elev_path_dist <= (1 + path_limit / 100) * shortest_path_dist
         assert elev_path_gain >= shortest_path_elev
 
     def test_dijkstra_max_elevation(self):
@@ -218,8 +206,9 @@ class AlgorithmTestSuite(unittest.TestCase):
         elev_path_dist = out_json['elev_path_dist']
         shortest_path_elev = out_json['gainShort']
         elev_path_gain = out_json['elev_path_gain']
-        assert elev_path_dist <= (1+ path_limit/100) * shortest_path_dist
+        assert elev_path_dist <= (1 + path_limit / 100) * shortest_path_dist
         assert elev_path_gain >= shortest_path_elev
+
 
 if __name__ == '__main__':
     unittest.main()

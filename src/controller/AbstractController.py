@@ -1,6 +1,10 @@
 from abc import ABC, abstractmethod
 
+
 class AbstractController(ABC):
+    """
+    This is abstract controller which has functionality that needs to be implemented by children classes
+    """
     def __init__(self):
         self.model = None
         self.observer = None

@@ -1,10 +1,14 @@
 from src.controller.AbstractController import *
-from src.constants.constants import *
 from src.model.DijkstraRoute import DijkstraRoute
 
-class DijkstraController(AbstractController):
 
+class DijkstraController(AbstractController):
+    """
+    This controller manipulates model to compute shortest route considering elevation into account and
+    uses Dijkstra algorithm strategy.
+    """
     def __init__(self):
+        super().__init__()
         self.model = None
         self.observer = None
         self.elevation_strategy = None

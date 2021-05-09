@@ -1,9 +1,9 @@
 import logging
+
 import networkx as nx
 import osmnx as ox
-from collections import deque, defaultdict
+
 from src.constants.constants import *
-from heapq import *
 from src.model.PathInformation import PathInformation
 from src.model.utils import get_path_weight
 
@@ -18,6 +18,7 @@ class ShortestRoute:
     """
     This class computes the shortest path without taking elevation into consideration.
     """
+
     def __init__(self, graph):
         self.logger = logging.getLogger(__name__)
         self.graph = graph

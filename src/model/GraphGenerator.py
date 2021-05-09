@@ -1,12 +1,13 @@
-import pickle as pkl
-import numpy as np
-from haversine import haversine, Unit
-import osmnx as ox
 import os
+import pickle as pkl
+import osmnx as ox
+from haversine import haversine, Unit
 
 
 class GraphGenerator:
-
+    """
+    This class has all the functionalities related to location graph
+    """
     def __init__(self):
         self.graph = None
         self.google_map_api_key = "AIzaSyDi1gpXppDygu9VMC5bXRNB7SdpSuGDXUw"

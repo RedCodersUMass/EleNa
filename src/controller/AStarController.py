@@ -4,8 +4,12 @@ from src.model.AStarRoute import AstarRoute
 
 
 class AStarController(AbstractController):
-
+    """
+    This controller manipulates model to compute shortest route considering elevation into account and
+    uses AStar algorithm strategy.
+    """
     def __init__(self):
+        super().__init__()
         self.model = None
         self.observer = None
         self.elevation_strategy = None

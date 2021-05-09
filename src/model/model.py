@@ -1,18 +1,14 @@
 from src.model.GraphGenerator import GraphGenerator
 from src.model.ShortestRoute import ShortestRoute
 from src.model.utils import get_address_from_coordinates
-from src.view.view import *
-from src.constants.constants import *
-from src.model.PathInformation import PathInformation
-from src.model.DijkstraRoute import DijkstraRoute
-from src.model.AStarRoute import AstarRoute
-from src.model.utils import get_path_weight
+
 
 class Model:
     """
     This class initializes critical parameters such the graph,the algorithm,the path_limit  etc.It contains methods to register the
     observer,set the algorithm,set the algorithm object,print the route information etc and also it notifies the observers.
     """
+
     def __init__(self):
         """
         This method initializes the  route and algorithm attributes
