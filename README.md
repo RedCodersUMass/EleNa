@@ -1,5 +1,17 @@
 # EleNa : Elevation Based Navigation System
 
+## Team Name
+### Redcoders
+
+## Team Members
+```
+Vijaya Gajanan Buddhavarapu
+Supriya Shreekant Jahagirdar
+Mrinal Tak
+Sirisha Annamraju
+Devyani Varma 
+```
+
 # Demo of the project
 ```
 https://www.youtube.com/watch?v=ubCXJt6fU9o
@@ -75,8 +87,18 @@ We have two algorithms to choose from
 ### Reset Fields
 This button resets the UI to default settings.
 
-# Console Logs
+# Documentation
 
+### Mid Point Presentation
+- ```EndTerm Presentation.pptx```
+
+### Report
+- ```Evaluation Report.pdf```
+
+### White Box testing
+- ```UIWhiteBoxTesting.pdf```
+
+### Console Logs
 One can view console logs on console. It contains metrics of shortest route and elevation route along with request 
 and response.
 
