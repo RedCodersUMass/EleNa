@@ -113,6 +113,10 @@ document.getElementById("submit").onclick = function(){
     var minMaxElevation = $('input[name="elevation"]:checked').val();
     pathLimit = document.getElementById("pathLimit").value;
 
+    if (pathLimit < 0) {
+        alert("Path limit cannot be negative. Please re-enter path limit before submitting.");
+        return ;
+    }
     if(isSelect) {
         var submitData = {
             "origin_coords": originCoords,
