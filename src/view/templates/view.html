@@ -34,7 +34,7 @@
                         <input type="text" name="originAddress" id="textOriginAddress">
                         <label for="textDestAddress" class="dest">Destination: </label>
                         <input type="text" name="destAddress" id="textDestAddress">
-                        <label for="elevation" class="ele">Path Limit: </label>
+                        <label for="elevation" class="ele">Path limit in % (Enter number between 0-100): </label>
                         <input type="number" name="path_limit" min="0" id="pathLimit" value=0>
                         <h3></h3>
                         <h5>Min/Max Elevation</h5>
@@ -45,8 +45,8 @@
                         <h5>Algorithm</h5>
                         <label for="AStar">A* Algorithm</label>
                         <input type="radio" id="AStar" name="algorithm" class="radioAStar" value="AStar" checked>
-                        <label for="Djikstra">Djikstra Algorithm</label>
-                        <input type="radio" id="Djikstra" name="algorithm" class="radioDjikstra" value="Djikstra">
+                        <label for="Dijkstra">Dijkstra Algorithm</label>
+                        <input type="radio" id="Dijkstra" name="algorithm" class="radioDijkstra" value="Dijkstra">
 
                         <button id="reset" class="resetButton btn btn-danger">Reset Fields</button>
                         <h3></h3>
@@ -59,7 +59,7 @@
                         <h5 class="card-title" style="text-decoration: underline;">Route Statistics</h5>
                         <div class="row" style="color:red;">
                             <div class="col-md-5">
-                                <p style="color:red;">Shortest Distance: </p>
+                                <p style="color:red;">Shortest Path distance: </p>
                             </div>
                             <div class="col-md-5">
                                 <p id="shortestDistance" style="color:red;"></p>
@@ -67,7 +67,7 @@
                         </div>
                         <div class="row" style="color:red;">
                             <div class="col-md-5">
-                                <p>Shortest Path Gain: </p>
+                                <p>Shortest Path elevation gain: </p>
                             </div>
                             <div class="col-md-5">
                                 <p id="gainShort"></p>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="row" style="color:blue;">
                             <div class="col-md-5">
-                                <p style="color:blue;">Elevation Distance: </p>
+                                <p style="color:blue;">EleNa Path distance: </p>
                             </div>
                             <div class="col-md-5">
                                 <p id="elevationDistance" style="color:blue;"></p>
@@ -83,7 +83,7 @@
                         </div>   
                         <div class="row" style="color:blue;">
                             <div class="col-md-5">
-                                <p>Elevation Path Gain: </p>
+                                <p>EleNa Path elevation gain: </p>
                             </div>
                             <div class="col-md-5">
                                 <p id="elev_path_gain"></p>
