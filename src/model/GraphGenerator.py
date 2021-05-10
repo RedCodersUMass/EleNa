@@ -13,7 +13,7 @@ class GraphGenerator:
         self.google_map_api_key = "AIzaSyDi1gpXppDygu9VMC5bXRNB7SdpSuGDXUw"
         # Centre point is the location of UMass Amherst
         self.centre_point = (42.3867637, -72.5322402)
-        self.offline_map_location = "openstreetmapoffline.p"
+        self.offline_map_location = "../openstreetmapoffline.p"
 
     def cache_map(self):
         # This method fetched the map from OSMNX and adds elevation attributes
@@ -29,13 +29,18 @@ class GraphGenerator:
     def generate_elevation_graph(self, dest_node):
         # Updates the graph with distance from end point and returns it.
         print("Trying to load offline map....", self.offline_map_location)
-        if os.path.exists(self.offline_map_location):
-            self.graph = pkl.load(open(self.offline_map_location, "rb"))
+        try:
+            self.graph = pkl.load(open("src/openstreetmapoffline.p", "rb"))
             print("Offline Map loaded!")
             self.graph = ox.add_edge_grades(self.graph)
-        else:
-            print("No offline map found.")
-            self.cache_map()
+        except:
+            if os.path.exists("../openstreetmapoffline.p"):
+                self.graph = pkl.load(open(self.offline_map_location, "rb"))
+                print("Offline Map loaded!")
+                self.graph = ox.add_edge_grades(self.graph)
+            else:
+                print("No offline map found.")
+                self.cache_map()
 
         # Graph is updated with Distance from all nodes in the graph to the final destination
         end_node = self.graph.nodes[ox.get_nearest_node(self.graph, point=dest_node)]
