@@ -9,7 +9,7 @@ Vijaya Gajanan Buddhavarapu
 Supriya Shreekant Jahagirdar
 Mrinal Tak
 Sirisha Annamraju
-Devyani Varma 
+Devyani Varma
 ```
 
 # Demo of the project
@@ -58,12 +58,12 @@ You can enter path limit - % of shortest distance one wants to minimize or maxim
 
 ### Min/Max Elevation
 There are two elevation strategy:
-- ```Minimize Elevation``` This selects the elevation strategy to minimize. 
-- ```Maximize Elevation``` This selects the elevation strategy to maximize. 
+- ```Minimize Elevation``` This selects the elevation strategy to minimize.
+- ```Maximize Elevation``` This selects the elevation strategy to maximize.
 
 ### Choice of Algorithms
 We have two algorithms to choose from
-- ```Dijkstra``` This selects the algorithm to Dijkstra. 
+- ```Dijkstra``` This selects the algorithm to Dijkstra.
 - ```A*``` This selects the algorithm to A*.
 
 # Steps to add Input
@@ -89,16 +89,15 @@ This button resets the UI to default settings.
 
 # Documentation
 
-### Mid Point Presentation
-- ```EndTerm Presentation.pptx```
-
-### Report
-- ```Evaluation Report.pdf```
+### Evaulation and desgin report
+- ```Evaluation and Design Document```
 
 ### White Box testing
-- ```UIWhiteBoxTesting.pdf```
+- ```UI Testing Report```
+
+### Automated testing using unittest framework
+- Go to test directory and run the files `MVCTestSuite.py` and `AlgorithmTestSuite.py`
 
 ### Console Logs
-One can view console logs on console. It contains metrics of shortest route and elevation route along with request 
+One can view console logs on console. It contains metrics of shortest route and elevation route along with request
 and response.
-
