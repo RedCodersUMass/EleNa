@@ -6,6 +6,7 @@ from src.constants import constants
 import math
 from src.model.PathInformation import PathInformation
 from src.model.utils import get_path_weight
+from src.model.utils import get_path_weight, astar_algorithm
 from src.constants.constants import *
 
 MAXIMIZE = "max"
@@ -48,11 +49,14 @@ class DijkstraRoute:
         self.elevation_route = nx.shortest_path(graph, source=self.starting_node, target=self.ending_node,
                                                weight='length')
         while self.scaling_factor < 10000:
-            # returns the shortest route from starting node to ending node based on distance
-            elevation_route = nx.dijkstra_path(graph, source=self.starting_node, target=self.ending_node,
-                                               weight=lambda u, v, d:
-                                               math.exp(min_max_factor * d[0]['length'] * (d[0]['grade'] + d[0]['grade_abs']) / 2)
-                                               + math.exp(1/self.scaling_factor * (d[0]['length'])))
+            # Dijkstra is a special case of AStar algorithm when the heuristic is set to None
+            elevation_route = astar_algorithm(graph,
+                                              source=self.starting_node,
+                                              target=self.ending_node,
+                                              heuristic=None,
+                                              weight=lambda u, v, d:
+                                              math.exp(min_max_factor * d[0]['length'] * (d[0]['grade'] + d[0]['grade_abs']) / 2)
+                                              + math.exp(1/self.scaling_factor * (d[0]['length'])))
             elevation_distance = sum(ox.utils_graph.get_route_edge_attributes(graph, elevation_route, 'length'))
             elevation_gain = get_path_weight(self.graph, elevation_route, ELEVATION_GAIN)
             if elevation_distance <= (1 + self.path_limit) * self.shortest_dist and \
